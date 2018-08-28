@@ -1,0 +1,13 @@
+/.php_cs.cache
+.DS_Store
+
+.buildpath
+.idea/
+.project
+.settings/
+.web-server-pid
+.docker-sync
+.env
+.docker-sync
+.idea
+.vagrant

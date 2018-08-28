@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  dev-box-container:
+    image: dev-box:latest
+    container_name: dev-box-container
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - vol-application:/application
+    networks:
+      static-network:
+        ipv4_address: 10.5.0.2
+
+networks:
+  static-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
