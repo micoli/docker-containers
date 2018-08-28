@@ -1,4 +1,4 @@
-FROM micoli/docker-containers/php-latest
+FROM micoli/docker-containers:php-latest
 
 RUN	apk update && \
 	apk add \
