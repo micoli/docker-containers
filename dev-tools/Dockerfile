@@ -22,9 +22,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ 
 COPY ./entrypoint.sh /
 RUN chmod a+x /entrypoint.sh
 
-EXPOSE 80
-EXPOSE 443
-
 WORKDIR /application
 
 ENTRYPOINT ["/entrypoint.sh"]
