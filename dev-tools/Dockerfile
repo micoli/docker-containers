@@ -21,6 +21,7 @@ RUN	apk update && \
 COPY ./entrypoint.sh /
 RUN chmod a+x /entrypoint.sh
 
+
 WORKDIR /application
 
 ENTRYPOINT ["/entrypoint.sh"]
