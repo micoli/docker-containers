@@ -5,10 +5,9 @@ RUN	apk update && \
         nodejs \
 		vim \
 		zsh \
-		tmux
-
-### Composer & Node Installation \
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer && \
+		tmux;\
+    ### Composer & Node Installation \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer && \
 	\
 	### Npm and node tools \
 	npm install -g \
