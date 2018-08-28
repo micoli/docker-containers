@@ -2,27 +2,27 @@ FROM php:7.2-fpm-alpine
 
 RUN	apk update && \
 	apk add \
-        bash \
+		bash \
 		gnupg \
 		git \
-        sudo \
+		sudo \
 		supervisor\
 		wget
 
 ### PHP extension dependencies Installation \
 RUN apk add \
-        icu-dev \
-        zlib-dev \
+		icu-dev \
+		zlib-dev \
 		libpng-dev \
 		freetype-dev \
 		libjpeg-turbo-dev \
-        jpeg-dev \
-        openjpeg-dev \
-        libmcrypt-dev \
+		jpeg-dev \
+		openjpeg-dev \
+		libmcrypt-dev \
 		sqlite-dev \
 		rabbitmq-c-dev \
-        libssh-dev \
-        imagemagick6-dev
+		libssh-dev \
+		imagemagick6-dev
 
 ### PHP extensions
 RUN	docker-php-ext-install \
