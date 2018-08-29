@@ -9,7 +9,10 @@ RUN	apk update && \
 		tmux \
 		iputils \
 		make \
-		shadow;\
+		shadow \
+		jq \
+		lftp \
+		httpie;\
     ### Composer & Node Installation \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer ; \
 	\
@@ -21,25 +24,36 @@ RUN	apk update && \
 
 RUN echo "%www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers;\
 	usermod --shell /bin/zsh www-data;\
-	usermod --home /var/www www-data
+	usermod --home /var/www www-data;\
+	usermod -G root www-data
 
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]
+
+COPY install.docker.cli.sh /usr/local/bin/install.docker.cli.sh
 COPY ./entrypoint.sh /
-RUN chmod a+x /entrypoint.sh
+
+RUN chmod a+x /entrypoint.sh;\
+    chmod a+x /usr/local/bin/install.docker.cli.sh;
 
 RUN echo "Misc" ;\
     ### install gitlab ;\
-    wget  https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 -O /usr/local/bin/gitlab-runner ;\
-    chmod +x /usr/local/bin/gitlab-runner 
+    echo "Download and install gitlab-runner" ;\
+    curl --silent  https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 -o /usr/local/bin/gitlab-runner ;\
+    chmod +x /usr/local/bin/gitlab-runner;\
+    curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.8.0/bin/linux/amd64/kubectl && \
+    chmod a+x /usr/local/bin/kubectl;\
+    kubectl version --client
 
 USER  www-data
 
-COPY home/user/zshrc .zshrc
-COPY home/user/tmux.conf .tmux.conf
-COPY home/user/install.docker.cli.sh install.docker.cli.sh
+WORKDIR /var/www
 
-RUN cd /var/www; \
-    zsh ./install.docker.cli.sh; \
-	mkdir .ssh ; \
+COPY home/user/zshrc /var/www.zshrc
+COPY home/user/tmux.conf /var/www.tmux.conf
+
+RUN mkdir .ssh ; \
 	sudo chown www-data:www-data /var/www; \
     sudo chmod 700 .ssh; \
 	echo "" > .ssh/id_rsa; \
@@ -49,6 +63,4 @@ RUN cd /var/www; \
 
 WORKDIR /application
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["bash"]
 
