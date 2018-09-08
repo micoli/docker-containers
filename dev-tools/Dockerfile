@@ -1,26 +1,17 @@
 FROM micoli/docker-containers:php-latest
 
+USER root
+
 RUN	apk update && \
 	apk add \
-		nodejs \
-		npm \
 		vim \
 		zsh \
 		tmux \
 		iputils \
-		make \
 		shadow \
 		jq \
 		lftp \
 		httpie;\
-    ### Composer & Node Installation \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer ; \
-	\
-	### Npm and node tools \
-	npm install -g \
-		bower \
-		gulp \
-		yarn ;
 
 RUN echo "%www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers;\
 	usermod --shell /bin/zsh www-data;\
@@ -44,7 +35,10 @@ RUN echo "Misc" ;\
     chmod +x /usr/local/bin/gitlab-runner;\
     curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.8.0/bin/linux/amd64/kubectl && \
     chmod a+x /usr/local/bin/kubectl;\
-    kubectl version --client
+    kubectl version --client   ;\
+    curl -o /tmp/helm.tgz https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz  ; \
+    sudo tar xvfz helm.tgz -C /usr/local/bin/ --strip-components=1 linux-amd64/helm ;\
+    chmod a+x /usr/local/bin/helm;
 
 USER  www-data
 

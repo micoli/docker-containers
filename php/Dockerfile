@@ -48,6 +48,19 @@ RUN	pecl install apcu  && \
 	docker-php-ext-enable imagick && \
 	pecl install amqp &&  \
 	docker-php-ext-enable amqp
+
+### Npm and node tools
+RUN npm install -g \
+		curl \
+		make \
+		nodejs \
+		npm \
+		bower \
+		gulp \
+		yarn ; \
+	### Composer & Node Installation \
+	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer ; 
+
 #
 ##### Suppression des caches APT \
 #RUN	rm -rf /var/lib/apt/lists/* && \
