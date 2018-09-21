@@ -33,7 +33,7 @@ RUN echo "Misc" ;\
     chmod a+x /usr/local/bin/kubectl;\
     kubectl version --client   ;\
     curl -o /tmp/helm.tgz https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz  ; \
-    sudo tar xvfz helm.tgz -C /usr/local/bin/ --strip-components=1 linux-amd64/helm ;\
+    sudo tar xvfz /tmp/helm.tgz -C /usr/local/bin/ --strip-components=1 linux-amd64/helm ;\
     chmod a+x /usr/local/bin/helm;
 
 USER  www-data

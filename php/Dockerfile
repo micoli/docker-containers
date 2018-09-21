@@ -65,7 +65,7 @@ RUN	apk update && \
     chown -R www-data:www-data $COMPOSER_HOME;\
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer;\
     sudo -E -u www-data composer global require hirak/prestissimo;
-    
+
 ##### Suppression des caches APT \
 #    rm -rf /var/lib/apt/lists/* && \
 #	sudo apk clean && \
