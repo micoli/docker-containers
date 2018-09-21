@@ -3,13 +3,12 @@ FROM micoli/docker-containers:php-latest
 USER root
 
 RUN	apk update && \
-	apk add \
+	apk add --no-cache \
 		vim \
 		zsh \
 		tmux \
 		iputils \
 		shadow \
-		jq \
 		lftp \
 		httpie;\
 
@@ -18,15 +17,12 @@ RUN echo "%www-data ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers;\
 	usermod --home /var/www www-data;\
 	usermod -G root www-data
 
-
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]
 
-COPY install.docker.cli.sh /usr/local/bin/install.docker.cli.sh
 COPY ./entrypoint.sh /
 
-RUN chmod a+x /entrypoint.sh;\
-    chmod a+x /usr/local/bin/install.docker.cli.sh;
+RUN chmod a+x /entrypoint.sh;
 
 RUN echo "Misc" ;\
     ### install gitlab ;\
@@ -52,9 +48,7 @@ RUN mkdir .ssh ; \
     sudo chmod 700 .ssh; \
 	echo "" > .ssh/id_rsa; \
 	chmod 600 .ssh/id_rsa; \
-    sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)";\
+    sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"; \
     composer global require hirak/prestissimo
 
 WORKDIR /application
-
-
