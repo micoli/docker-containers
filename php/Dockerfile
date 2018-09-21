@@ -64,11 +64,12 @@ RUN	apk update && \
     chmod 777 $COMPOSER_HOME && \
     chown -R www-data:www-data $COMPOSER_HOME;\
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer;\
-    sudo -E -u www-data composer global require hirak/prestissimo; \
-    ##### Suppression des caches APT \
-    rm -rf /var/lib/apt/lists/* && \
-	sudo apk clean && \
-	apk autoremove -y --purge
+    sudo -E -u www-data composer global require hirak/prestissimo;
+    
+##### Suppression des caches APT \
+#    rm -rf /var/lib/apt/lists/* && \
+#	sudo apk clean && \
+#	apk autoremove -y --purge
 
 COPY ./entrypoint-php.sh /entrypoint-php.sh
 COPY install.docker.cli.sh /usr/local/bin/install.docker.cli.sh
