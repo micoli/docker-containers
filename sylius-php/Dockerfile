@@ -1,11 +1,9 @@
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/compose/compose-file/#target
 
-ARG PHP_VERSION=7.2
-ARG NODE_VERSION=10
-ARG NGINX_VERSION=1.15
+FROM php:${PHP_VERSION}-fpm-alpine
 
-FROM php:${PHP_VERSION}-fpm-alpine AS sylius_php
+ARG PHP_VERSION=7.2
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -99,19 +97,3 @@ RUN apk add --no-cache \
 	docker-php-ext-enable amqp;
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-
-
-FROM node:${NODE_VERSION}-alpine AS sylius_nodejs
-
-WORKDIR /srv/sylius
-
-RUN set -eux; \
-	apk add --no-cache --virtual .build-deps \
-		g++ \
-		gcc \
-		git \
-		make \
-		python \
-	;
-
