@@ -45,6 +45,9 @@ RUN	apk update && \
 		sockets ; \
     apk add --no-cache $PHPIZE_DEPS; \
     ##### PECL PHP extensions\
+    apk add libmemcached-dev libmemcached; \
+    pecl install memcached  && \
+	docker-php-ext-enable memcached && \
     pecl install apcu  && \
 	docker-php-ext-enable apcu && \
 	pecl install imagick &&  \
