@@ -1,9 +1,10 @@
 # the different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/compose/compose-file/#target
 
+ARG PHP_VERSION=7.2
+
 FROM php:${PHP_VERSION}-fpm-alpine
 
-ARG PHP_VERSION=7.2
 
 # persistent / runtime deps
 RUN apk add --no-cache \
