@@ -98,3 +98,11 @@ RUN apk add --no-cache \
 	docker-php-ext-enable amqp;
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY php.ini /usr/local/etc/php/php.ini
+
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN set -eux; \
+	composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --classmap-authoritative; \
+	composer clear-cache
+ENV PATH="${PATH}:/root/.composer/vendor/bin"
